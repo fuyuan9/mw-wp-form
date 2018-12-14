@@ -38,11 +38,12 @@ class MW_WP_Form_Field_Tel extends MW_WP_Form_Abstract_Form_Field {
 	 */
 	protected function set_defaults() {
 		return array(
-			'name'       => '',
-			'class'      => null,
-			'value'      => '',
-			'show_error' => 'true',
+			'name'         => '',
+			'class'        => null,
+			'value'        => '',
+			'show_error'   => 'true',
 			'conv_half_alphanumeric' => 'true',
+			'custom_error' => 'false',
 		);
 	}
 
@@ -66,13 +67,19 @@ class MW_WP_Form_Field_Tel extends MW_WP_Form_Abstract_Form_Field {
 			$conv_half_alphanumeric = null;
 		}
 
-		$_ret = $this->Form->tel( $this->atts['name'], array(
-			'class' => $this->atts['class'],
+		$error = $this->get_error( $this->atts['name'] );
+		$valid = is_null( $error );
+		$class = apply_filters( 'mwform_form_fields_validation_class', $this->atts['class'], $valid );
+		$options = array(
+			'class' => $class,
 			'conv-half-alphanumeric' => $conv_half_alphanumeric,
 			'value' => $value,
-		) );
-		if ( 'false' !== $this->atts['show_error'] ) {
-			$_ret .= $this->get_error( $this->atts['name'] );
+			'valid' => $valid,	
+			'error' => $error,
+		);
+		$_ret = $this->Form->tel( $this->atts['name'], $options );
+		if ( 'false' !== $this->atts['show_error'] && 'true' !== $this->atts['custom_error'] ) {
+			$_ret .= $error;
 		}
 		return $_ret;
 	}

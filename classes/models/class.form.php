@@ -231,6 +231,8 @@ class MW_WP_Form_Form {
 			'value'       => '',
 			'placeholder' => null,
 			'conv-half-alphanumeric' => null,
+			'valid'       => true,
+			'error'       => null,
 		);
 
 		$options = shortcode_atts( $defaults, $options );
@@ -259,6 +261,8 @@ class MW_WP_Form_Form {
 			'value'       => '',
 			'placeholder' => null,
 			'conv-half-alphanumeric' => null,
+			'valid'       => true,
+			'error'       => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -286,6 +290,8 @@ class MW_WP_Form_Form {
 			'value'       => '',
 			'placeholder' => null,
 			'conv-half-alphanumeric' => null,
+			'valid'       => true,
+			'error'       => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -312,6 +318,8 @@ class MW_WP_Form_Form {
 			'min'   => 0,
 			'max'   => 100,
 			'step'  => 1,
+			'valid' => true,
+			'error' => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -339,6 +347,8 @@ class MW_WP_Form_Form {
 			'max'         => null,
 			'step'        => 1,
 			'placeholder' => null,
+			'valid'       => true,
+			'error'       => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -379,6 +389,8 @@ class MW_WP_Form_Form {
 			'maxlength'   => null,
 			'value'       => '',
 			'placeholder' => null,
+			'valid'       => true,
+			'error'       => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -402,6 +414,8 @@ class MW_WP_Form_Form {
 			'class' => null,
 			'conv-half-alphanumeric' => null,
 			'value' => '',
+			'valid' => true,
+			'error' => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 
@@ -442,6 +456,8 @@ class MW_WP_Form_Form {
 						'conv-half-alphanumeric' => $options['conv-half-alphanumeric'],
 					),
 				),
+				'valid' => $options['valid'],
+				'error' => $options['error'],
 			) )
 			. $this->separator( $name, $separator )
 		);
@@ -459,6 +475,8 @@ class MW_WP_Form_Form {
 			'class' => null,
 			'conv-half-alphanumeric' => null,
 			'value' => '',
+			'valid' => true,
+			'error' => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 
@@ -507,6 +525,8 @@ class MW_WP_Form_Form {
 						'conv-half-alphanumeric' => $options['conv-half-alphanumeric'],
 					),
 				),
+				'valid' => $options['valid'],
+				'error' => $options['error'],
 			) )
 			. $this->separator( $name, $separator )
 		);
@@ -527,6 +547,8 @@ class MW_WP_Form_Form {
 			'rows'        => 5,
 			'value'       => '',
 			'placeholder' => null,
+			'valid'       => true,
+			'error'       => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -551,6 +573,8 @@ class MW_WP_Form_Form {
 			'class' => null,
 			'id'    => null,
 			'value' => '',
+			'valid' => true,
+			'error' => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -577,6 +601,8 @@ class MW_WP_Form_Form {
 			'id'         => '',
 			'value'      => '',
 			'vertically' => null,
+			'valid'      => true,
+			'error'      => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 
@@ -616,6 +642,8 @@ class MW_WP_Form_Form {
 			'class'      => null,
 			'value'      => '',
 			'vertically' => null,
+			'valid'      => true,
+			'error'      => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 
@@ -759,6 +787,8 @@ class MW_WP_Form_Form {
 			'js'          => '',
 			'value'       => '',
 			'placeholder' => null,
+			'valid'       => true,
+			'error'       => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -785,6 +815,8 @@ class MW_WP_Form_Form {
 			'js'          => '',
 			'value'       => '',
 			'placeholder' => null,
+			'valid'       => true,
+			'error'       => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(
@@ -807,6 +839,8 @@ class MW_WP_Form_Form {
 		$defaults = array(
 			'id'    => null,
 			'class' => null,
+			'valid' => true,
+			'error' => null,
 		);
 		$options = shortcode_atts( $defaults, $options );
 		$options = array_merge( $options, array(

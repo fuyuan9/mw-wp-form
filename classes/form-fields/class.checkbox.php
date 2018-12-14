@@ -38,15 +38,16 @@ class MW_WP_Form_Field_Checkbox extends MW_WP_Form_Abstract_Form_Field {
 	 */
 	protected function set_defaults() {
 		return array(
-			'name'       => '',
-			'id'         => null,
-			'class'      => null,
-			'children'   => '',
-			'value'      => null,
-			'vertically' => null,
-			'post_raw'   => 'false',
-			'show_error' => 'true',
-			'separator'  => ',',
+			'name'         => '',
+			'id'           => null,
+			'class'        => null,
+			'children'     => '',
+			'value'        => null,
+			'vertically'   => null,
+			'post_raw'     => 'false',
+			'show_error'   => 'true',
+			'separator'    => ',',
+			'custom_error' => 'false',
 		);
 	}
 
@@ -65,17 +66,23 @@ class MW_WP_Form_Field_Checkbox extends MW_WP_Form_Abstract_Form_Field {
 		$children  = $this->get_children( $this->atts['children'] );
 		$separator = ( $this->atts['separator'] ) ? $this->atts['separator'] : $this->defaults['separator'];
 
-		$_ret = $this->Form->checkbox( $this->atts['name'], $children, array(
+		$error = $this->get_error( $this->atts['name'] );
+		$valid = is_null( $error );
+		$class = apply_filters( 'mwform_form_fields_validation_class', $this->atts['class'], $valid );
+		$options = array(
 			'id'         => $this->atts['id'],
-			'class'      => $this->atts['class'],
+			'class'      => $class,
 			'value'      => $value,
 			'vertically' => $this->atts['vertically'],
-		), $separator );
+			'valid'      => $valid,
+			'error'      => $error,
+		);
+		$_ret = $this->Form->checkbox( $this->atts['name'], $children, $options, $separator );
 		if ( 'false' === $this->atts['post_raw'] ) {
 			$_ret .= $this->Form->children( $this->atts['name'], $children );
 		}
-		if ( 'false' !== $this->atts['show_error'] ) {
-			$_ret .= $this->get_error( $this->atts['name'] );
+		if ( 'false' !== $this->atts['show_error'] && 'true' !== $this->atts['custom_error'] ) {
+			$_ret .= $error;
 		}
 		return $_ret;
 	}

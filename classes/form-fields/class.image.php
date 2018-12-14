@@ -38,10 +38,11 @@ class MW_WP_Form_Field_Image extends MW_WP_Form_Abstract_Form_Field {
 	 */
 	protected function set_defaults() {
 		return array(
-			'name'  => '',
-			'id'    => null,
-			'class' => null,
-			'show_error' => 'true',
+			'name'         => '',
+			'id'           => null,
+			'class'        => null,
+			'show_error'   => 'true',
+			'custom_error' => 'false',
 		);
 	}
 
@@ -53,29 +54,36 @@ class MW_WP_Form_Field_Image extends MW_WP_Form_Abstract_Form_Field {
 	 * @return string HTML
 	 */
 	protected function input_page() {
-		$_ret = $this->Form->file( $this->atts['name'], array(
+		$error = $this->get_error( $this->atts['name'] );
+		$valid = is_null( $error );
+		$class = apply_filters( 'mwform_form_fields_validation_class', $this->atts['class'], $valid );
+		$options = array(
 			'id'    => $this->atts['id'],
-			'class' => $this->atts['class'],
-		) );
+			'class' => $class,
+			'valid' => $valid,
+			'error' => $error,
+		);
+		$_ret = $this->Form->file( $this->atts['name'], $options );
 		$value = $this->Data->get_raw( $this->atts['name'] );
 
 		$upload_file_keys = $this->Data->get_post_value_by_key( MWF_Config::UPLOAD_FILE_KEYS );
 		if ( ! empty( $value ) && is_array( $upload_file_keys ) && in_array( $this->atts['name'], $upload_file_keys ) ) {
 			$filepath = MWF_Functions::fileurl_to_path( $value );
 			if ( file_exists( $filepath ) ) {
+				$image_holder_html = apply_filters(
+					'mwform_form_fields_image_holder_html', 
+					'<div class="%s_image"><img src="%s" alt="" />%s</div>'
+				);
 				$_ret .= sprintf(
-					'<div class="%s_image">
-						<img src="%s" alt="" />
-						%s
-					</div>',
+					$image_holder_html,
 					esc_attr( MWF_Config::NAME ),
 					esc_attr( $value ),
 					$this->Form->hidden( $this->atts['name'], $value )
 				);
 			}
 		}
-		if ( 'false' !== $this->atts['show_error'] ) {
-			$_ret .= $this->get_error( $this->atts['name'] );
+		if ( 'false' !== $this->atts['show_error'] && 'true' !== $this->atts['custom_error'] ) {
+			$_ret .= $error;
 		}
 		return $_ret;
 	}
@@ -92,11 +100,12 @@ class MW_WP_Form_Field_Image extends MW_WP_Form_Abstract_Form_Field {
 		if ( $value ) {
 			$filepath = MWF_Functions::fileurl_to_path( $value );
 			if ( file_exists( $filepath ) ) {
+				$image_holder_html = apply_filters(
+					'mwform_form_fields_image_holder_html', 
+					'<div class="%s_image"><img src="%s" alt="" />%s</div>'
+				);
 				return sprintf(
-					'<div class="%s_image">
-						<img src="%s" alt="" />
-						%s
-					</div>',
+					$image_holder_html,
 					esc_attr( MWF_Config::NAME ),
 					esc_attr( $value ),
 					$this->Form->hidden( $this->atts['name'], $value )

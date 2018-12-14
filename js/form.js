@@ -13,12 +13,16 @@ jQuery( function( $ ) {
 		var target = $( e ).data( 'mwform-file-delete' );
 		var hidden_field = $( 'input[type="hidden"][name="' + target + '"]' );
 		if ( hidden_field.val() ) {
-			$( e ).css( 'visibility', 'visible' );
+			$( e ).prop( 'disabled', false );
+			$( e ).addClass( 'mwform-file-delete-enable' );
+		} else {
+			$( e ).prop( 'disabled', true );
 		}
 		$( e ).click( function() {
 			var file_field = $( 'input[type="file"][name="' + target + '"]' );
 			var new_field = $( file_field[0].outerHTML );
-			$( this ).css( 'visibility', 'hidden' );
+			$( this ).removeClass( 'mwform-file-delete-enable' );
+			$( this ).prop( 'disabled', true );
 			file_field.replaceWith( new_field );
 
 			hidden_field.parent().fadeOut( 100, function() {
@@ -28,7 +32,8 @@ jQuery( function( $ ) {
 	} );
 	$( document ).on( 'change', '.mw_wp_form input[type="file"]', function() {
 		var name = $( this ).attr( 'name' );
-		file_delete.closest( '[data-mwform-file-delete="' + name + '"]' ).css( 'visibility', 'visible' );
+		file_delete.closest( '[data-mwform-file-delete="' + name + '"]' ).prop( 'disabled', false );
+		file_delete.closest( '[data-mwform-file-delete="' + name + '"]' ).addClass( 'mwform-file-delete-enable' );
 	} );
 
 	var mw_wp_form_button_no_click = true;

@@ -38,10 +38,11 @@ class MW_WP_Form_Field_File extends MW_WP_Form_Abstract_Form_Field {
 	 */
 	protected function set_defaults() {
 		return array(
-			'name'  => '',
-			'id'    => null,
-			'class' => null,
-			'show_error' => 'true',
+			'name'         => '',
+			'id'           => null,
+			'class'        => null,
+			'show_error'   => 'true',
+			'custom_error' => 'false',
 		);
 	}
 
@@ -53,10 +54,16 @@ class MW_WP_Form_Field_File extends MW_WP_Form_Abstract_Form_Field {
 	 * @return string HTML
 	 */
 	protected function input_page() {
-		$_ret = $this->Form->file( $this->atts['name'], array(
+		$error = $this->get_error( $this->atts['name'] );
+		$valid = is_null( $error );
+		$class = apply_filters( 'mwform_form_fields_validation_class', $this->atts['class'], $valid );
+		$options = array(
 			'id'    => $this->atts['id'],
-			'class' => $this->atts['class'],
-		) );
+			'class' => $class,
+			'valid' => $valid,
+			'error' => $error,
+		);
+		$_ret = $this->Form->file( $this->atts['name'], $options );
 		$value = $this->Data->get_raw( $this->atts['name'] );
 
 		$upload_file_keys = $this->Data->get_post_value_by_key( MWF_Config::UPLOAD_FILE_KEYS );
@@ -75,8 +82,8 @@ class MW_WP_Form_Field_File extends MW_WP_Form_Abstract_Form_Field {
 				);
 			}
 		}
-		if ( 'false' !== $this->atts['show_error'] ) {
-			$_ret .= $this->get_error( $this->atts['name'] );
+		if ( 'false' !== $this->atts['show_error'] && 'true' !== $this->atts['custom_error'] ) {
+			$_ret .= $error;
 		}
 		return $_ret;
 	}

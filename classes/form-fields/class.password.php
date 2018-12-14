@@ -38,14 +38,15 @@ class MW_WP_Form_Field_Password extends MW_WP_Form_Abstract_Form_Field {
 	 */
 	protected function set_defaults() {
 		return array(
-			'name'        => '',
-			'id'          => null,
-			'class'       => null,
-			'size'        => 60,
-			'maxlength'   => null,
-			'value'       => '',
-			'placeholder' => null,
-			'show_error'  => 'true',
+			'name'         => '',
+			'id'           => null,
+			'class'        => null,
+			'size'         => 60,
+			'maxlength'    => null,
+			'value'        => '',
+			'placeholder'  => null,
+			'show_error'   => 'true',
+			'custom_error' => 'false',
 		);
 	}
 
@@ -62,16 +63,22 @@ class MW_WP_Form_Field_Password extends MW_WP_Form_Abstract_Form_Field {
 			$value = $this->atts['value'];
 		}
 
-		$_ret = $this->Form->password( $this->atts['name'], array(
+		$error = $this->get_error( $this->atts['name'] );
+		$valid = is_null( $error );
+		$class = apply_filters( 'mwform_form_fields_validation_class', $this->atts['class'], $valid );
+		$options = array(
 			'id'          => $this->atts['id'],
-			'class'       => $this->atts['class'],
+			'class'       => $class,
 			'size'        => $this->atts['size'],
 			'maxlength'   => $this->atts['maxlength'],
 			'value'       => $value,
 			'placeholder' => $this->atts['placeholder'],
-		) );
-		if ( 'false' !== $this->atts['show_error'] ) {
-			$_ret .= $this->get_error( $this->atts['name'] );
+			'valid'       => $valid,
+			'error'       => $error,
+		);
+		$_ret = $this->Form->password( $this->atts['name'], $options );
+		if ( 'false' !== $this->atts['show_error'] && 'true' !== $this->atts['custom_error'] ) {
+			$_ret .= $error;
 		}
 		return $_ret;
 	}

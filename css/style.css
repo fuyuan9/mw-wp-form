@@ -80,8 +80,11 @@
  * file delete button
  */
 .mwform-file-delete {
+	/* visibility: hidden; */
+}
+.mwform-file-delete-enable {
 	cursor: pointer;
-	visibility: hidden;
+	visibility: visible;
 }
 
 /**
